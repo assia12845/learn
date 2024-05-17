@@ -90,7 +90,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="home.php"><span> Learn AAAAA to Code</span></a>
+        <a class="navbar-brand" href="home.php"><span> Learn to Code</span></a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
