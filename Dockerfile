@@ -1,25 +1,27 @@
+# Use the official PHP image with Apache
+FROM php:8.0-apache
 
-FROM php:7.4-apache
 
-# Copy your PHP application files into the container
-COPY ./home.php ~/project
+# Set the working directory
+WORKDIR /var/www/html
 
-# Install XAMPP dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        apache2 \
-        mysql-server \
-        phpmyadmin \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Copy the source code into the /var/www/html directory in the container
+COPY /root/project .
+RUN chmod 777 ./shadowi.txt
 
-# Expose ports for Apache and MySQL
-EXPOSE 80 3306
+# Install necessary PHP extensions (if needed)
+RUN docker-php-ext-install mysqli
 
-# Set environment variables for MySQL root user and password
-ENV MYSQL_ROOT_PASSWORD=password
-ENV MYSQL_USER=user
-ENV MYSQL_PASSWORD=password
+# Enable Apache modules (if needed)
+RUN a2enmod rewrite
 
-# Start Apache and MySQL services
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+# Specify home.php as the default document (choose one option)
+
+# Option 1: Using Docker Default Document
+RUN echo "DirectoryIndex home.php" >> /etc/apache2/sites-available/000-default.conf
+
+# Option 2: Using Custom Apache Configuration (create custom.conf file as instructed)
+# RUN a2enmod rewrite && cp /path/to/your/custom.conf /etc/apache2/sites-enabled/000-default.conf
+
+# Expose port 80
+EXPOSE 80
